@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+ORIGINAL_PWD=$(pwd) # Store the current working directory
 DIR="$(realpath "$( dirname "${BASH_SOURCE[0]}" )")"
 
 if [[ "${#}" -gt 0 ]]; then
@@ -7,7 +8,9 @@ if [[ "${#}" -gt 0 ]]; then
  printf "%s\n" "\"Clean Run\" triggered."
  if [[ "${EUID}" -ne 0 ]]; then
    printf "%s\n" "Triggered behavior requires root access."
-   printf "%s\n" "Please re-execute with \`sudo\`."
+   printf "%s\n" "Please re-execute using \`sudo\` command."
+   printf "%s\n" "Example: sudo !!"
+   printf "%s\n" "Example: sudo $0 $@"
    exit 1
  fi
  printf "%s\n" "Executing: \`rm -rf \"${DIR}/build\"\`"
@@ -22,6 +25,8 @@ docker run --rm -it \
  -v "${DIR}:/project" \
  djflix/rpi-pico-builder:latest \
  bash -c 'mkdir -p build && cd build && cmake -DPICO_BOARD=beepy .. && make clean && make'
+
+cd "${ORIGINAL_PWD}" || exit 1
 
 # DOCKER IMAGE DETAILS:
 # https://github.com/DJFliX/rpi-pico-builder (fork of original, smaller size, newer ubuntu version, available on docker hub)
