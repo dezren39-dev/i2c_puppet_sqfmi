@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
+git submodule foreach git submodule foreach git reset --hard
+git submodule foreach git submodule foreach git reset --hard
 git submodule foreach git reset --hard
 
-cd 3rdparty/pico-sdk
+git submodule update -- "3rdparty/pico-sdk"
 
-git submodule foreach git reset --hard
+cd  3rdparty/pico-sdk
 
-cd lib/tinyusb
+git submodule update -- "lib/tinyusb"
 
-git submodule foreach git reset --hard
-
-cd ../../../..
-
+cd ../..
