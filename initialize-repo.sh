@@ -48,3 +48,16 @@ submodule_status() {
   echo_submodule_status "$submodule_path" $status_code
   return $status_code
 }
+
+submodule_status $(pwd)
+status_code=$?
+
+if [[ $status_code -eq 0 ]]; then
+  git submodule update --init
+fi
+
+cd 3rdparty/pico-sdk
+
+git submodule update --init
+
+cd ../..
