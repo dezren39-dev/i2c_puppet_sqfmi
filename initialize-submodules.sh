@@ -49,15 +49,28 @@ submodule_status() {
   return $status_code
 }
 
-submodule_status $(pwd)
-status_code=$?
+initialize_submodule_if_not_initialized() {
+  submodule_path="$1"
+  original_pwd=$(pwd) # Store the current working directory
 
-if [[ $status_code -eq 0 ]]; then
-  git submodule update --init
-fi
+  # Navigate to the submodule's directory
+  cd "$submodule_path" || return 1
 
-cd 3rdparty/pico-sdk
+  # Run the submodule_status function to get the status
+  submodule_status "$submodule_path"
+  status_code=$?
 
-git submodule update --init
+  # If the status code is 0 (uninitialized), initialize the submodule
+  if [ $status_code -eq 0 ]; then
+    git submodule update --init
+    echo "The submodule at $submodule_path has been initialized."
+  fi
 
-cd ../..
+  # Return to the original working directory
+  cd "$original_pwd" || return 1
+
+  return 0
+}
+
+initialize_submodule_if_not_initialized $(pwd)
+initialize_submodule_if_not_initialized $(pwd)/3rdparty/pico-sdk
