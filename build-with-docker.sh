@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ "$#" -gt 0 ]]; then
+ rm -rf $(pwd)/build
+fi
+
 # https://github.com/xingrz/rpi-pico-builder (original, public archive repo, available on docker hub)
 # https://github.com/DJFliX/rpi-pico-builder (fork of original, smaller size, newer ubuntu version, available on docker hub)
 docker run --rm -it \
