@@ -30,7 +30,7 @@ echo_submodule_status() {
       echo "The submodule at $submodule_path is not initialized."
       ;;
     1)
-      echo "The submodule at $submodule_path is initialized but not updated."
+      echo "The submodule at $submodule_path is initialized and in-sync with superproject."
       ;;
     2)
       echo "The submodule at $submodule_path is initialized and has changes."
